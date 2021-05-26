@@ -35,8 +35,8 @@ function Snowman(props) {
    */
   function guessedWord() {
     return answer
-        .split("")
-        .map(ltr => (guessed.has(ltr) ? ltr : "_"));
+      .split("")
+      .map(ltr => (guessed.has(ltr) ? ltr : "_"));
   }
 
   /** handleGuess: handle a guessed letter:
@@ -58,33 +58,51 @@ function Snowman(props) {
   /** generateButtons: return array of letter buttons to render */
   function generateButtons() {
     return "abcdefghijklmnopqrstuvwxyz".split("").map(ltr => (
-        <button
-            key={ltr}
-            value={ltr}
-            onClick={handleGuess}
-            disabled={guessed.has(ltr)}
-        >
-          {ltr}
-        </button>
+      <button
+        key={ltr}
+        value={ltr}
+        onClick={handleGuess}
+        disabled={guessed.has(ltr)}
+      >
+        {ltr}
+      </button>
     ));
   }
 
+  // let lossStatementVis = (nWrong > props.maxWrong) ? "visible" : "hidden";
+  // let buttonVis = (nWrong > props.maxWrong) ? "hidden" : "visible";
+  // let imgToDisplay = (nWrong > props.maxWrong)
+  //                  ? props.images[]
+  //                  : props.images[props.maxWrong];
+
+  let lossStatementVis = "hidden";
+  let buttonVis = "visible";
+  let imgToDisplay = props.images[nWrong];
+
+
   /** render: render game */
   return (
-      <div className="Snowman">
-        <img src={(props.images)[nWrong]} alt={nWrong} />
-        <p>Number wrong: {nWrong}</p>
-        <p className="Snowman-word">{guessedWord()}</p>
-        <p>{generateButtons()}</p>
-      </div>
-  );
+    <div className="Snowman">
+      {
+        if(nWrong <= props.maxWrong){
+          <div>
+          <img src={imgToDisplay} alt={nWrong}/>
+          <p>Number wrong: {nWrong}</p>
+          <p className="Snowman-word">{guessedWord()}</p>
+          <p style={{ visibility: buttonVis }}>{generateButtons()}</p>
+          </div>
+      }
+    }
+  </div>
+  )
+
 }
 
-Snowman.defaultProps = {
-  maxWrong: 6,
-  images: [img0, img1, img2, img3, img4, img5, img6],
-  words: ["apple"],
-};
+  Snowman.defaultProps = {
+    maxWrong: 6,
+    images: [img0, img1, img2, img3, img4, img5, img6],
+    words: ["apple"],
+  };
 
 
-export default Snowman;
+  export default Snowman;
